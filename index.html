@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <title>jsPDF 繁體中文範例</title>
+</head>
+<body>
+  <button id="generate">生成 PDF 報告</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.29/dist/jspdf.plugin.autotable.min.js"></script>
+  <script src="./noto-sans-tc-regular.js"></script>
+  <script>
+    document.getElementById('generate').addEventListener('click', () => {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFont('NotoSansTC-Regular');
+
+      doc.setFontSize(18);
+      doc.text('繁體中文範例報告', 14, 20);
+
+      const img = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAAAAACPAi4CAAACZElEQVR4Xu2ZwW7bMBDAZ6Uiv4IC/galvDlyxq3UX0DpDqzq10l7QLNJjjXImQxGc1dQc5sKXc5teLoI0lp4rWuH++7e9oDs33G1jBQUSIlEiJRIiUSIlEiJRIiUSIlEiJRIiUSIlEiJRIiURCbgDDF4DmFfbe3YhNs8QAH6rN7Hd3EGAtGZWlznEU61sI3RB3LjQp8dkUBaRdOyqK8BPVKxHrsAayWWEXUOYaL6wLdmgD5nq2WEYLRh1SeIKvIei6irMIXja+6JGZveHFkNjEcNWef39MF4R2tQeM+c/37yZfyPU1K+f5dyFwchAuC8W9jAq56k97X3gSFG8sRP/6IDdnh3oX1N1pAVccahJgN9zeps2sonMSKcwk5Y8ZndKyGKoU9g24XS73/4FwXk4Hknc0aF4P3nPuCXHcvPPfQtbDNRsTA70NUkKtnE+bBZ5qTqL0U8BCLlcsoFVJHhtq/Y5cHIzoHmr18bODsPwhjNz1OMGNJUgIAQ9PEG8D1g0K1TKoEt1TGVtC6zqD2c/Ik2Vq6KYFAsktwVDqveufc4ypu32n7/n1xXHrp236UMtO4Okzp1KimG1HjMATkUMlzUxr87hcPLZ9eczsQnUnxE27XGr0C+MEY0AKXNxV+4CSkiqhSSjMBDkNIQP5CKEM5QnOMATkilpCgSgP5A0lBf0KJ42QikIzejneih/7gToYtL6vhfVqlhK/SXxPxq8np5xpoE2mR7BncpsbR9f7D78DveANu48UUfZo0fo0RKZrN8BINjr3Cahnaj3ahXNvWhv14jArtyTcidH8333AdxAi8uKUaX4nHCqB6f+GO6zkRgZNpmjDoE7YQDdyCjTiMQuYzfoalGoVYLRNvKcJste19h9UpAJZciV06Pq4jG3Ejj6inUeJ8V+RaHcRUW2KIiMWA6I0X58F3RJTJ63HgFUsVTNff7kwh28ykVfoCkb0N7LxyzKk5XxhxL7sRKqzZo4PMBVXsfS5aXoaZySUdkGFUTkOcJCIZyQQ4Ei5IQRLlLQhEuklLECRLJBCEOklCEJ5JUIQL0tAhBvQtCEI2k5CEIelZIIvJQgEEx5ZgiYtPIyoBuQYVrzmApPh/kZUMtOXv3gNMoAAAAASUVORK5CYII=';
+
+      doc.addImage(img, 'PNG', 150, 10, 50, 50);
+
+      doc.setFontSize(12);
+      const lines = [
+        '這是一個列點示範',
+        '使用 jsPDF 產生 PDF',
+        '字體為思源黑體',
+        '支援表格、圖片等內容'
+      ];
+      let y = 40;
+      lines.forEach(line => {
+        doc.text(`• ${line}`, 14, y);
+        y += 7;
+      });
+
+      doc.autoTable({
+        head: [['項目', '說明']],
+        body: [
+          ['A', '第一項說明文字'],
+          ['B', '第二項說明文字'],
+          ['C', '第三項說明文字']
+        ],
+        startY: y + 10,
+        styles: { font: 'NotoSansTC-Regular' }
+      });
+
+      doc.save('report.pdf');
+    });
+  </script>
+</body>
+</html>
